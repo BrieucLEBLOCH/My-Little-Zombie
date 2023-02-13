@@ -33,7 +33,7 @@ public class scriptPlayer : MonoBehaviour
     [SerializeField] Component _foodComponent;
 
     [SerializeField] private int _childSave = 0;
-    [SerializeField] private int _childSaveMax = 10;
+    private int _childSaveMax = 0;
     [SerializeField] Text _textChildSave;
 
     [SerializeField] private float _timeFoodDeleteAll = 10.0f;
@@ -45,6 +45,14 @@ public class scriptPlayer : MonoBehaviour
     // Animations
     Animator teacherAnim;
 
+    [SerializeField] private bool bIsInDistributeur = false;
+    [SerializeField] private bool bIsInHospital = false;
+    [SerializeField] private bool bIsInChildSave = false;
+
+    [SerializeField] private Collider childGameCollider;
+
+    GameObject[] listChild;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -52,6 +60,9 @@ public class scriptPlayer : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
 
         _isGrounded = true;
+
+        listChild = GameObject.FindGameObjectsWithTag("Child");
+        _childSaveMax = listChild.Length;
     }
 
     void Update()
@@ -105,6 +116,20 @@ public class scriptPlayer : MonoBehaviour
             //playerAudio.PlayOneShot(playerClip);
         }
         if (h == 0 && v == 0) { teacherAnim.SetInteger("walking", 0); }
+
+        // Gagner de la nourriture
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (bIsInDistributeur) addFood(15);
+            if (bIsInHospital) addHealth(_healthMax);
+            if (bIsInChildSave && childGameCollider != null)
+            {
+                Destroy(childGameCollider.gameObject);
+                Destroy(childGameCollider.transform.parent.gameObject);
+
+                addSaveChild();
+            }
+        }
     }
 
     // Update is called once per frame
@@ -150,65 +175,59 @@ public class scriptPlayer : MonoBehaviour
             Destroy(collisionInfo.transform.parent.gameObject);
             _rb.AddForce(Vector3.up * _jumpForce * Time.deltaTime, ForceMode.Impulse);
         }
+        else if (collisionInfo.tag == "HitboxDistributerBuy") bIsInDistributeur = true;
+        else if (collisionInfo.tag == "HitboxHospitalHeal") bIsInHospital = true;
+        else if (collisionInfo.tag == "HitboxChildSave") bIsInChildSave = true;
+    }
+
+    private void OnTriggerExit(Collider collisionInfo)
+    {
+        if (collisionInfo.tag == "HitboxDistributerBuy") bIsInDistributeur = false;
+        else if (collisionInfo.tag == "HitboxHospitalHeal") bIsInHospital = false;
+        else if (collisionInfo.tag == "HitboxChildSave") bIsInChildSave = false;
     }
 
     private void OnTriggerStay(Collider collisionInfo)
     {
         if (collisionInfo.tag == "HitboxChildSave")
         {
+            childGameCollider = collisionInfo;
+
             // Afficher : "Appuyer sur E Sauver"
             //Print()
-
-            // Save Child
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                Destroy(collisionInfo.gameObject);
-                Destroy(collisionInfo.transform.parent.gameObject);
-                addSaveChild();
-            }
         }
-
+        else
+        {
+            childGameCollider = null;
+        }
         if (collisionInfo.tag == "HitboxDistributerBuy")
         {
             // Afficher : "Appuyer sur E Acheter"
             //Print()
-
-            // Gagner de la nourriture
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                addFood(15);
-            }
         }
-
         if (collisionInfo.tag == "HitboxHospitalHeal")
         {
             // Afficher : "Appuyer sur E Se Soigner"
             //Print()
-
-            // Gagner de la vie
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                addHealth(_healthMax);
-            }
         }
     }
 
     private void UpdateHealth()
     {
         float pourcentHealth = _health * 100 / _healthMax;
-        _healthComponent.transform.localScale = new Vector3(pourcentHealth * 2 / 100, 0.2f, 1);
+        _healthComponent.transform.localScale = new Vector3(pourcentHealth * 2 / 100, 0.2f, 1f);
     }
 
     private void UpdateStamina()
     {
         float pourcentStamina = _stamina * 100 / _staminaMax;
-        _staminaComponent.transform.localScale = new Vector3(pourcentStamina * 2 / 100, 0.2f, 1);
+        _staminaComponent.transform.localScale = new Vector3(pourcentStamina * 2 / 100, 0.2f, 1f);
     }
 
     private void UpdateFood()
     {
         float pourcentFood = _food * 100 / _foodMax;
-        _foodComponent.transform.localScale = new Vector3(pourcentFood * 2 / 100, 0.2f, 1);
+        _foodComponent.transform.localScale = new Vector3(pourcentFood * 2 / 100, 0.2f, 1f);
     }
 
     public void addSaveChild()
