@@ -32,7 +32,7 @@ public class scriptPlayer : MonoBehaviour
     [SerializeField] private float _foodMax = 10;
     [SerializeField] Component _foodComponent;
 
-    [SerializeField] private int _childSave = 0;
+    [SerializeField] public int _childSave = 0;
     private int _childSaveMax = 0;
     [SerializeField] Text _textChildSave;
 
@@ -117,17 +117,16 @@ public class scriptPlayer : MonoBehaviour
         }
         if (h == 0 && v == 0) { teacherAnim.SetInteger("walking", 0); }
 
-        // Gagner de la nourriture
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (bIsInDistributeur) addFood(15);
             if (bIsInHospital) addHealth(_healthMax);
             if (bIsInChildSave && childGameCollider != null)
             {
-                Destroy(childGameCollider.gameObject);
-                Destroy(childGameCollider.transform.parent.gameObject);
+                //Destroy(childGameCollider.gameObject);
+                //Destroy(childGameCollider.transform.parent.gameObject);
 
-                addSaveChild();
+               //addSaveChild();
             }
         }
     }
@@ -228,11 +227,6 @@ public class scriptPlayer : MonoBehaviour
     {
         float pourcentFood = _food * 100 / _foodMax;
         _foodComponent.transform.localScale = new Vector3(pourcentFood * 2 / 100, 0.2f, 1f);
-    }
-
-    public void addSaveChild()
-    {
-        _childSave++;
     }
 
     public void addFood(float food)

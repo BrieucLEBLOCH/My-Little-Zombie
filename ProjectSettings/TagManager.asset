@@ -3,7 +3,17 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - HitboxEnnemyKill
+  - Ennemy
+  - HitboxHospitalHeal
+  - HitboxChildSave
+  - Child
+  - Map
+  - Distributer
+  - HitboxDistributerBuy
+  - HitboxPlayer
+  - SchoolHitbox
   layers:
   - Default
   - TransparentFX
