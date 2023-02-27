@@ -1,19 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using System;
 using UnityEngine.AI;
 
 
 public class ChildScript : MonoBehaviour
 {
+    GameObject gameManager;
+    gameManager gameManagerScript;
+
     NavMeshAgent childAgent;
     [SerializeField] Transform targetSchool;
     [SerializeField] private bool bIsInChildSave = false;
-    [SerializeField] private Collider childGameCollider;
 
     // Start is called before the first frame update
     void Start()
     {
+        gameManager =  GameObject.Find("Manager");
+        gameManagerScript = gameManager.GetComponent<gameManager>();
         childAgent = GetComponent<NavMeshAgent>();
         childAgent.speed = 5;
 
@@ -28,7 +35,6 @@ public class ChildScript : MonoBehaviour
             if (bIsInChildSave)
             {
                 childAgent.SetDestination(targetSchool.position);
-                //addSaveChild();
             }
         }
     }
@@ -36,10 +42,10 @@ public class ChildScript : MonoBehaviour
     private void OnTriggerEnter(Collider collisionInfo)
     {
         if (collisionInfo.tag == "HitboxPlayer") bIsInChildSave = true;
-        if (collisionInfo.tag == "HitboxSchool")
+        if (collisionInfo.tag == "SchoolHitbox")
         {
-            //Destroy(gameObject);
-            //Destroy(childGameCollider.transform.parent.gameObject);
+            Destroy(gameObject);
+            addSaveChild();
         }
     }
 
@@ -48,8 +54,8 @@ public class ChildScript : MonoBehaviour
         if (collisionInfo.tag == "HitboxPlayer") bIsInChildSave = false;
     }
 
-    //public void addSaveChild()
-    //{
-    //    _childSave++;
-    //}
+    public void addSaveChild()
+    {
+        gameManagerScript._childSave++;
+    }
 }

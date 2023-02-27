@@ -29,8 +29,8 @@ public class EnemyScript : MonoBehaviour
         }
         else
         {
-            enemyAgent.SetDestination(targetChild.position);
-            enemyAgent.speed = 5;
+            //enemyAgent.SetDestination(targetChild.position);
+            enemyAgent.speed = 0;
         }
 
         //enemyAgent.SetDestination(targetChild.position);

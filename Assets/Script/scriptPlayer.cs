@@ -140,11 +140,6 @@ public class scriptPlayer : MonoBehaviour
         float horizontalOffset = _horizontalSpeed * Input.GetAxis("Mouse X") * Time.deltaTime;
         transform.Rotate(0.0f, horizontalOffset, 0.0f, Space.World);
 
-        if (_childSave == _childSaveMax)
-        {
-            SceneManager.LoadScene("MenuWin");
-        }
-
         if (_health <= 0)
         {
             SceneManager.LoadScene("MenuOver");
@@ -249,9 +244,6 @@ public class scriptPlayer : MonoBehaviour
 
     private void UpdateUI()
     {
-        // Update Text Quest
-        _textChildSave.text = "Enfants : " + _childSave.ToString() + " / " + _childSaveMax.ToString();
-
         UpdateHealth();
         UpdateStamina();
         UpdateFood();
