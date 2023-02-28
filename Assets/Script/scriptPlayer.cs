@@ -133,7 +133,7 @@ public class scriptPlayer : MonoBehaviour
             if (IsGroundedScript._isGrounded == false)
             {
                 Destroy(collisionInfo.transform.parent.gameObject);
-                _rb.AddForce(Vector3.up * _jumpForce * Time.deltaTime, ForceMode.Impulse);
+                _rb.AddForce(Vector3.up * _jumpForce * 1.5f, ForceMode.Impulse);
             }
 
         }
