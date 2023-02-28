@@ -147,20 +147,6 @@ public class scriptPlayer : MonoBehaviour
         else if (collisionInfo.tag == "HitboxHospitalHeal") bIsInHospital = false;
     }
 
-    private void OnTriggerStay(Collider collisionInfo)
-    {
-        if (collisionInfo.tag == "HitboxDistributerBuy")
-        {
-            // Afficher : "Appuyer sur E Acheter"
-            //Print()
-        }
-        if (collisionInfo.tag == "HitboxHospitalHeal")
-        {
-            // Afficher : "Appuyer sur E Se Soigner"
-            //Print()
-        }
-    }
-
     public void addFood(float food)
     {
         if (gameManagerScript._food + food > gameManagerScript._foodMax) gameManagerScript._food = gameManagerScript._foodMax;

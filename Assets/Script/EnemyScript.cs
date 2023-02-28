@@ -29,37 +29,8 @@ public class EnemyScript : MonoBehaviour
         }
         else
         {
-            //enemyAgent.SetDestination(targetChild.position);
             enemyAgent.speed = 0;
         }
-
-
-        //enemyAgent.SetDestination(targetChild.position);
-        //if (enemyAgent.remainingDistance < 5)
-        //{
-        //    enemyAgent.SetDestination(targetPlayer.position);
-        //    if (enemyAgent.remainingDistance <= movingRadius)
-        //    {
-        //        enemyAgent.speed = 5;
-        //    }
-        //    else if (enemyAgent.remainingDistance > movingRadius)
-        //    {
-        //        enemyAgent.speed = 0;
-        //    }
-        //}
-        //else
-        //{
-        //    enemyAgent.SetDestination(targetPlayer.position);
-        //    if (enemyAgent.remainingDistance <= movingRadius)
-        //    {
-        //        enemyAgent.speed = 5;
-        //    }
-        //    if (enemyAgent.remainingDistance > movingRadius)
-        //    {
-        //        enemyAgent.SetDestination(targetChild.position);
-        //        enemyAgent.speed = 5;
-        //    }
-        //}
 
     }
 }
