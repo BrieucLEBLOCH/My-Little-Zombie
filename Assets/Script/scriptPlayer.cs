@@ -22,6 +22,8 @@ public class scriptPlayer : MonoBehaviour
     //stats
     GameObject gameManager;
     gameManager gameManagerScript;
+    saveScript gameManagerSaveScript;
+    pauseGame gameManagerPauseScript;
 
     // Animations
     Animator teacherAnim;
@@ -41,6 +43,7 @@ public class scriptPlayer : MonoBehaviour
 
         gameManager = GameObject.Find("Manager");
         gameManagerScript = gameManager.GetComponent<gameManager>();
+        gameManagerPauseScript = gameManager.GetComponent<pauseGame>();
 
         IsGrounded = GameObject.Find("OldMap");
         IsGroundedScript = IsGrounded.GetComponent<IsGrounded>();
@@ -64,7 +67,10 @@ public class scriptPlayer : MonoBehaviour
 
         // Lose food bar, in _timeFoodDeleteAll secondes, the food goes from 100 to 0.
         if (gameManagerScript._food > 0.0f) addFood(-Time.deltaTime * 100 / gameManagerScript._timeFoodDeleteAll);
-        else SceneManager.LoadScene("MenuOver");
+        else
+        {
+            transform.position = gameManagerSaveScript.LoadPosition();
+        }
 
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
@@ -84,6 +90,23 @@ public class scriptPlayer : MonoBehaviour
                 IsGroundedScript._isGrounded = false;
                 _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (gameManagerScript.canMove)
+            {
+                gameManagerScript.canMove = false;
+                gameManagerPauseScript.GamePause();
+                gameManagerPauseScript.ShowUIPause();
+            }
+            else
+            {
+                gameManagerScript.canMove = true;
+                gameManagerPauseScript.ResumeGame();
+                gameManagerPauseScript.HideUIPause();
+            } 
+
         }
 
         // Animations
@@ -111,8 +134,11 @@ public class scriptPlayer : MonoBehaviour
     void FixedUpdate()
     {
         // Contrôles souris
-        float horizontalOffset = _horizontalSpeed * Input.GetAxis("Mouse X") * Time.deltaTime;
-        transform.Rotate(0.0f, horizontalOffset, 0.0f, Space.World);
+        if (gameManagerScript.canMove)
+        {
+            float horizontalOffset = _horizontalSpeed * Input.GetAxis("Mouse X") * Time.deltaTime;
+            transform.Rotate(0.0f, horizontalOffset, 0.0f, Space.World);
+        }
     }
 
     void OnCollisionStay(Collision collisionInfo)

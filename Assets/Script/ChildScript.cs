@@ -15,6 +15,9 @@ public class ChildScript : MonoBehaviour
     NavMeshAgent childAgent;
     [SerializeField] Transform targetSchool;
     [SerializeField] private bool bIsInChildSave = false;
+    Transform playerTransform;
+
+    saveScript scriptPlayerSave;
 
     // Start is called before the first frame update
     void Start()
@@ -35,13 +38,26 @@ public class ChildScript : MonoBehaviour
             if (bIsInChildSave)
             {
                 childAgent.SetDestination(targetSchool.position);
+                scriptPlayerSave = playerTransform.GetComponent<saveScript>();
+
+                if (scriptPlayerSave != null)
+                {
+                    scriptPlayerSave.SavePosition();
+                    Debug.Log("CheckPoint set !");
+                    Debug.Log(scriptPlayerSave.LoadPosition());
+                }
             }
         }
     }
 
     private void OnTriggerEnter(Collider collisionInfo)
     {
-        if (collisionInfo.tag == "HitboxPlayer") bIsInChildSave = true;
+        if (collisionInfo.tag == "HitboxPlayer")
+        {
+            bIsInChildSave = true;
+            playerTransform = collisionInfo.transform;
+        }
+        
         if (collisionInfo.tag == "SchoolHitbox")
         {
             Destroy(gameObject);

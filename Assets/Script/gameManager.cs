@@ -31,6 +31,11 @@ public class gameManager : MonoBehaviour
     [SerializeField] Text _textChildSave;
 
     GameObject[] listChild;
+
+    saveScript gameManagerSaveScript;
+
+    public bool canMove;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +44,10 @@ public class gameManager : MonoBehaviour
 
         listChild = GameObject.FindGameObjectsWithTag("Child");
         _childSaveMax = listChild.Length;
+
+        gameManagerSaveScript = GetComponent<saveScript>();
+
+        canMove = true;
     }
 
     // Update is called once per frame
@@ -59,6 +68,7 @@ public class gameManager : MonoBehaviour
 
         if (_health <= 0)
         {
+            //transform.position = gameManagerSaveScript.LoadPosition();
             SceneManager.LoadScene("MenuOver");
         }
     }
