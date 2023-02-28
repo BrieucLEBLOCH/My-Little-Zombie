@@ -33,6 +33,7 @@ public class EnemyScript : MonoBehaviour
             enemyAgent.speed = 0;
         }
 
+
         //enemyAgent.SetDestination(targetChild.position);
         //if (enemyAgent.remainingDistance < 5)
         //{

@@ -17,7 +17,6 @@ public class scriptPlayer : MonoBehaviour
     // jump
     public Vector3 _jump;
     public float _jumpForce = 200.0f;
-    public bool _isGrounded;
     Rigidbody _rb;
 
     //stats
@@ -26,6 +25,10 @@ public class scriptPlayer : MonoBehaviour
 
     // Animations
     Animator teacherAnim;
+
+    //isGrounded
+    GameObject IsGrounded;
+    IsGrounded IsGroundedScript;
 
     [SerializeField] private bool bIsInDistributeur = false;
     [SerializeField] private bool bIsInHospital = false;
@@ -36,10 +39,11 @@ public class scriptPlayer : MonoBehaviour
         teacherAnim = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
 
-        _isGrounded = true;
-
         gameManager = GameObject.Find("Manager");
         gameManagerScript = gameManager.GetComponent<gameManager>();
+
+        IsGrounded = GameObject.Find("OldMap");
+        IsGroundedScript = IsGrounded.GetComponent<IsGrounded>();
     }
 
     void Update()
@@ -73,10 +77,13 @@ public class scriptPlayer : MonoBehaviour
         transform.Translate(Vector3.forward * _speed * v * Time.deltaTime);
 
         // Saut
-        if (Input.GetKeyDown(KeyCode.Space) && _isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            _isGrounded = false;
-            _rb.AddForce(Vector3.up * _jumpForce * Time.deltaTime, ForceMode.Impulse);
+            if (IsGroundedScript._isGrounded)
+            {
+                IsGroundedScript._isGrounded = false;
+                _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
+            }
         }
 
         // Animations
@@ -119,17 +126,16 @@ public class scriptPlayer : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        _isGrounded = true;
-    }
-
     private void OnTriggerEnter(Collider collisionInfo)
     {
         if (collisionInfo.tag == "HitboxEnnemyKill")
         {
-            Destroy(collisionInfo.transform.parent.gameObject);
-            _rb.AddForce(Vector3.up * _jumpForce * Time.deltaTime, ForceMode.Impulse);
+            if (IsGroundedScript._isGrounded == false)
+            {
+                Destroy(collisionInfo.transform.parent.gameObject);
+                _rb.AddForce(Vector3.up * _jumpForce * Time.deltaTime, ForceMode.Impulse);
+            }
+
         }
         else if (collisionInfo.tag == "HitboxDistributerBuy") bIsInDistributeur = true;
         else if (collisionInfo.tag == "HitboxHospitalHeal") bIsInHospital = true;

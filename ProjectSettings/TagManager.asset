@@ -14,11 +14,13 @@ TagManager:
   - HitboxDistributerBuy
   - HitboxPlayer
   - SchoolHitbox
+  - MapHitbox
+  - IsGroundedHitbox
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Map
   - Water
   - UI
   - 
