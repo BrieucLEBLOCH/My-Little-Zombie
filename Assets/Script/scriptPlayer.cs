@@ -62,7 +62,7 @@ public class scriptPlayer : MonoBehaviour
         {
             float staminaRemove = Time.deltaTime * 100 / gameManagerScript._timeStaminaMaxUse;
             addStamina(-staminaRemove);
-            _speed *= 2.0f;
+            _speed *= 1.5f;
             gameManagerScript._lastTimeStamina = Time.time;
         }
 

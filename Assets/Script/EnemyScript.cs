@@ -25,7 +25,7 @@ public class EnemyScript : MonoBehaviour
         enemyAgent.SetDestination(targetPlayer.position);
         if (enemyAgent.remainingDistance <= movingRadius)
         {
-            enemyAgent.speed = 5;
+            enemyAgent.speed = 6;
         }
         else
         {
