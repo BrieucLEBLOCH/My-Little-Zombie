@@ -22,7 +22,6 @@ public class movementCamera : MonoBehaviour
     void Update()
     {
         float verticalOffset = _verticalSpeed * Input.GetAxis("Mouse Y") * Time.deltaTime;
-        Debug.Log(gameManagerScript.canMove);
         if (transform.eulerAngles.x - verticalOffset < 45.0f && transform.eulerAngles.x - verticalOffset > 0.0f && gameManagerScript.canMove)
         {
             transform.Rotate(-verticalOffset, 0.0f, 0.0f, Space.Self);

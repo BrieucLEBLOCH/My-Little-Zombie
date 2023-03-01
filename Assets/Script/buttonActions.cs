@@ -46,6 +46,9 @@ public class buttonActions : MonoBehaviour
 
     public void GameOver()
     {
+        gameManagerScript.canMove = true;
+        gameManagerPauseScript.ResumeGame();
+        gameManagerPauseScript.HideUIPause();
         SceneManager.LoadScene("MenuOver");
     }
 

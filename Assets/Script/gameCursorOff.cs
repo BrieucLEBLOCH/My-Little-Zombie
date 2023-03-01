@@ -5,7 +5,7 @@ using UnityEngine;
 public class gameCursorOff : MonoBehaviour
 {
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
@@ -14,7 +14,11 @@ public class gameCursorOff : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.Confined;
+
+    }
+
+    public void setVisible(bool visible)
+    {
+        Cursor.visible = visible;
     }
 }

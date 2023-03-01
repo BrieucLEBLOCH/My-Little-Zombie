@@ -32,6 +32,8 @@ public class gameManager : MonoBehaviour
 
     GameObject[] listChild;
 
+    GameObject player;
+
     saveScript gameManagerSaveScript;
 
     public bool canMove;
@@ -44,6 +46,8 @@ public class gameManager : MonoBehaviour
 
         listChild = GameObject.FindGameObjectsWithTag("Child");
         _childSaveMax = listChild.Length;
+
+        player = GameObject.FindGameObjectWithTag("HitboxPlayer");
 
         gameManagerSaveScript = GetComponent<saveScript>();
 
@@ -68,8 +72,7 @@ public class gameManager : MonoBehaviour
 
         if (_health <= 0)
         {
-            //transform.position = gameManagerSaveScript.LoadPosition();
-            SceneManager.LoadScene("MenuOver");
+            Respawn();
         }
     }
 
@@ -98,5 +101,13 @@ public class gameManager : MonoBehaviour
     {
         float pourcentFood = _food * 100 / _foodMax;
         _foodComponent.transform.localScale = new Vector3(pourcentFood * 2 / 100, 0.2f, 1f);
+    }
+
+    public void Respawn()
+    {
+        player.transform.position = gameManagerSaveScript.LoadPosition();
+        _health = _healthMax;
+        _food = _foodMax;
+        _stamina = _staminaMax;
     }
 }

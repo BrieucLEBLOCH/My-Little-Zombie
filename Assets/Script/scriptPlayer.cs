@@ -43,10 +43,14 @@ public class scriptPlayer : MonoBehaviour
 
         gameManager = GameObject.Find("Manager");
         gameManagerScript = gameManager.GetComponent<gameManager>();
+        gameManagerSaveScript = gameManager.GetComponent<saveScript>();
         gameManagerPauseScript = gameManager.GetComponent<pauseGame>();
 
         IsGrounded = GameObject.Find("OldMap");
         IsGroundedScript = IsGrounded.GetComponent<IsGrounded>();
+
+        Debug.Log(transform.position);
+        gameManagerSaveScript.SavePosition(transform.position);
     }
 
     void Update()
@@ -63,13 +67,14 @@ public class scriptPlayer : MonoBehaviour
         }
 
         // Gain stamina when you don't run 
-        if (gameManagerScript._lastTimeStamina + gameManagerScript._timeStaminaGain < Time.time && gameManagerScript._stamina < gameManagerScript._staminaMax) addStamina(Time.deltaTime * 100 / 3.0f);
+        if (gameManagerScript._lastTimeStamina + gameManagerScript._timeStaminaGain < Time.time && gameManagerScript._stamina < gameManagerScript._staminaMax)
+            addStamina(Time.deltaTime * 100 / 3.0f);
 
         // Lose food bar, in _timeFoodDeleteAll secondes, the food goes from 100 to 0.
         if (gameManagerScript._food > 0.0f) addFood(-Time.deltaTime * 100 / gameManagerScript._timeFoodDeleteAll);
         else
         {
-            transform.position = gameManagerSaveScript.LoadPosition();
+            gameManagerScript.Respawn();
         }
 
         float h = Input.GetAxisRaw("Horizontal");

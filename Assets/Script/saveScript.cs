@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class saveScript : MonoBehaviour
 {
-    Vector3 checkPointPosition;
+    [SerializeField] Vector3 checkPointPosition;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         checkPointPosition = new Vector3();
     }
@@ -17,9 +17,9 @@ public class saveScript : MonoBehaviour
         
     }
 
-    public void SavePosition()
+    public void SavePosition(Vector3 pos)
     {
-        checkPointPosition = transform.position;
+        checkPointPosition = pos;
     }
 
     public Vector3 LoadPosition()

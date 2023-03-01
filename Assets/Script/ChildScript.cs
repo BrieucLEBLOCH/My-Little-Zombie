@@ -24,6 +24,7 @@ public class ChildScript : MonoBehaviour
     {
         gameManager =  GameObject.Find("Manager");
         gameManagerScript = gameManager.GetComponent<gameManager>();
+        scriptPlayerSave = gameManager.GetComponent<saveScript>();
         childAgent = GetComponent<NavMeshAgent>();
         childAgent.speed = 5;
 
@@ -38,11 +39,10 @@ public class ChildScript : MonoBehaviour
             if (bIsInChildSave)
             {
                 childAgent.SetDestination(targetSchool.position);
-                scriptPlayerSave = playerTransform.GetComponent<saveScript>();
 
                 if (scriptPlayerSave != null)
                 {
-                    scriptPlayerSave.SavePosition();
+                    scriptPlayerSave.SavePosition(playerTransform.position);
                     Debug.Log("CheckPoint set !");
                     Debug.Log(scriptPlayerSave.LoadPosition());
                 }

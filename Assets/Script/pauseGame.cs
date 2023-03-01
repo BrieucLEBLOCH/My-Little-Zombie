@@ -6,9 +6,15 @@ public class pauseGame : MonoBehaviour
 {
     [SerializeField] GameObject menuPause;
 
+    GameObject gameManager;
+    gameCursorOff gameCursorScript;
+
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = GameObject.Find("Manager");
+        gameCursorScript = gameManager.GetComponent<gameCursorOff>();
+
         HideUIPause();
     }
 
@@ -32,10 +38,12 @@ public class pauseGame : MonoBehaviour
     public void ShowUIPause()
     {
         menuPause.SetActive(true);
+        gameCursorScript.setVisible(true);
     }
 
     public void HideUIPause()
     {
         menuPause.SetActive(false);
+        gameCursorScript.setVisible(false);
     }
 }
